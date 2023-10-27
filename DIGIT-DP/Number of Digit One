@@ -1,0 +1,26 @@
+class Solution {
+public:
+    int dp[10][2][12];
+
+    int f(string &s,int idx,int tight,int count){
+        if(idx==s.size()){
+            return count;
+        }
+        if(dp[idx][tight][count]!=-1){
+            return dp[idx][tight][count];
+        }
+        int ans=0;
+        int limit=(tight==1?s[idx]-'0':9);
+
+        for(int i=0;i<=limit;i++){
+            int update=count+(i==1?1:0);
+            ans+=f(s,idx+1,(tight & i==s[idx]-'0'),update);
+        }
+        return dp[idx][tight][count]=ans;
+    }
+    int countDigitOne(int n) {
+        string s=to_string(n);
+        memset(dp,-1,sizeof(dp));
+        return f(s,0,1,0);
+    }
+};
