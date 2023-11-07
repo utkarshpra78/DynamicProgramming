@@ -1,0 +1,30 @@
+//https://leetcode.com/problems/coin-change/description/
+
+class Solution {
+public:
+    int coinChange(vector<int>& coin, int amount) {
+        int n=coin.size();
+        sort(coin.begin(),coin.end());
+        vector<vector<int>>dp(n,vector<int>(amount+1,1e9));
+        for(int i=0;i<=amount;i++){
+            if(i%coin[0]==0){
+                dp[0][i]=i/coin[0];
+            }
+        }
+
+        for(int i=1;i<n;i++){
+            for(int j=0;j<=amount;j++){ 
+                dp[i][j]=dp[i-1][j];               
+                if(j-coin[i]>=0){
+                    dp[i][j]=min(dp[i][j-coin[i]]+1,dp[i][j]);                   
+                }
+            }
+        }
+        int d=dp[n-1][amount];
+        if(d==1e9){
+            return -1;
+        }else{
+            return d;
+        }
+    }
+};
