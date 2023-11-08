@@ -1,0 +1,27 @@
+//https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iv/description/
+
+class Solution {
+public:
+    int f(int ind,int check,int no,int k,vector<int>&price,vector<vector<vector<int>>>&dp){
+        if(ind>=price.size()||no>=k){
+            return 0;
+        }
+
+        if(dp[ind][check][no]!=-1){
+            return dp[ind][check][no];
+        }
+        int profit=0;
+        if(check){
+            profit=max(-price[ind]+f(ind+1,0,no,k,price,dp),f(ind+1,1,no,k,price,dp));
+        }
+        else{
+            profit=max(price[ind]+f(ind+1,1,no+1,k,price,dp),f(ind+1,0,no,k,price,dp));
+        }
+        return dp[ind][check][no]=profit;
+    }
+    int maxProfit(int k, vector<int>& prices) {
+        int n=prices.size();
+        vector<vector<vector<int>>>dp(n+1,vector<vector<int>>(2,vector<int>(k+1,-1)));
+        return f(0,1,0,k,prices,dp);
+    }
+};
