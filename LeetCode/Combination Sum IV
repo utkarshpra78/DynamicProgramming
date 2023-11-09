@@ -1,0 +1,17 @@
+//https://leetcode.com/problems/combination-sum-iv/description/?envType=list&envId=55ajm50i
+
+class Solution {
+public:
+    int combinationSum4(vector<int>& nums, int n) {
+        vector<int>dp(n+1,0);
+        dp[0]=1;
+        for(int i=1;i<=n;i++){
+            for (int f : nums) {
+                if (i >= f) {
+                    dp[i] += (long long int)dp[i - f];
+                }
+            }
+        }
+        return dp[n];
+    }
+};
